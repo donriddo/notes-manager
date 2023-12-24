@@ -21,7 +21,7 @@ export class NotesService {
     return this.noteModel.find();
   }
 
-  findOne(id: string, userId?: string) {
+  findOne(id: string) {
     return this.noteModel.findById(id);
   }
 
