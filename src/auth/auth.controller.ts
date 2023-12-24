@@ -13,8 +13,8 @@ import { AuthService } from './auth.service';
 import { SignInDTO, SignUpDTO } from './auth.dto';
 import { LocalAuthGuard } from './auth.guard';
 import { Request } from 'express';
-import { Public } from 'src/app.constants';
-import { UsersService } from 'src/users/users.service';
+import { Public } from '@/app.constants';
+import { UsersService } from '@/users/users.service';
 
 @Controller('auth')
 export class AuthController {

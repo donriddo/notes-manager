@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { NotesService } from './notes.service';
 import { Request } from 'express';
-import { AuthUser } from 'src/auth/auth.interface';
+import { AuthUser } from '@/auth/auth.interface';
 import { CreateNoteDto, UpdateNoteDto } from './notes.dto';
 
 @Controller('notes')
