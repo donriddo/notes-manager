@@ -6,6 +6,9 @@ import * as Joi from 'joi';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 const configSchema = Joi.object({
   PORT: Joi.number().default(3000),
@@ -41,8 +44,15 @@ const configSchema = Joi.object({
       inject: [ConfigService],
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}
