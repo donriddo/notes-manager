@@ -1,26 +1,45 @@
 import { Injectable } from '@nestjs/common';
-import { CreateNoteDto } from './dto/create-note.dto';
-import { UpdateNoteDto } from './dto/update-note.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Note } from './notes.schema';
+import { CreateNoteDto, UpdateNoteDto } from './notes.dto';
 
 @Injectable()
 export class NotesService {
-  create(createNoteDto: CreateNoteDto) {
-    return 'This action adds a new note';
+  constructor(@InjectModel(Note.name) private noteModel: Model<Note>) {}
+
+  create(userId: string, createNoteDto: CreateNoteDto) {
+    const note = new this.noteModel({ ...createNoteDto, user: userId });
+    return note.save();
   }
 
-  findAll() {
-    return `This action returns all notes`;
+  findAll(userId?: string) {
+    if (userId) {
+      return this.noteModel.find({ user: userId });
+    }
+
+    return this.noteModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} note`;
+  findOne(id: string, userId?: string) {
+    return this.noteModel.findById(id);
   }
 
-  update(id: number, updateNoteDto: UpdateNoteDto) {
-    return `This action updates a #${id} note`;
+  update(id: string, updateNoteDto: UpdateNoteDto) {
+    return this.noteModel.findByIdAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        $set: updateNoteDto,
+      },
+      {
+        new: true,
+      },
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} note`;
+  remove(id: string) {
+    return this.noteModel.findByIdAndDelete(id);
   }
 }

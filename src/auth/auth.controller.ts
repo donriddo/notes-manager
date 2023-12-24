@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignInDTO, SignUpDTO } from './dto/auth.dto';
+import { SignInDTO, SignUpDTO } from './auth.dto';
 import { LocalAuthGuard } from './auth.guard';
 import { Request } from 'express';
 import { Public } from 'src/app.constants';
